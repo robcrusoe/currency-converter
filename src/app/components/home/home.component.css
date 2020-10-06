@@ -1,0 +1,21 @@
+.home_heading {
+	border-bottom: 2px solid #2c2c2c;
+}
+
+.home_main_content {
+	margin-top: 2.25rem;
+}
+
+.home_conversion_card {
+	width: 100%;
+	border: 1px solid #2c2c2c;
+	min-height: 13rem;
+	border-radius: 1rem;
+	z-index: 10;
+	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+	transition: 0.3s;
+}
+
+.home_conversion_card:hover {
+  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+}
