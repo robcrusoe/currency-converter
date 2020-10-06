@@ -1,16 +1,73 @@
 <div class="container">
-    <div class="row">
-        <div class="col-md-12 home_heading">
-            <h1>Hello, There!</h1>
-            <h4>Welcome to the currency conversion portal.</h4>
-        </div>
-    </div>
+	<div class="row">
+		<div class="col-md-12 home_heading">
+			<h1>Hello, There!</h1>
+			<h4>Welcome to the currency conversion portal.</h4>
+		</div>
+	</div>
 
-    <div class="row home_main_content">
-        <div class="col-sm-12 col-md-offset-2 col-md-8">
-            <div class="home_conversion_card">
-                
-            </div>
-        </div>
-    </div>
+	<div class="row home_main_content">
+		<div class="col-sm-12 col-md-offset-3 col-md-6">
+			<div class="home_conversion_card">
+
+				<div class="conversion_result">
+					<div class="conversion_from">
+						{{ getCurrencyValue('base') }} {{ getCurrencyDesc('base') }} equals
+					</div>
+
+					<div class="conversion_to">
+						{{ getCurrencyValue('target') }} {{ getCurrencyDesc('target') }}
+					</div>
+				</div>
+
+
+				<form class="conversion_form" [formGroup]="conversionForm">
+
+					<!-- Currency to be converted from -->
+					<div class="row">
+						<div class="conversion_desc">
+							Convert From
+						</div>
+
+						<div class="col-xs-5">
+							<div class="form-group">
+								<input type="number" class="form-control" formControlName="baseCurrencyVal">
+							</div>
+						</div>
+
+						<div class="col-xs-7">
+							<div class="form-group">
+								<select class="form-control" formControlName="baseCurrency">
+									<option *ngFor="let symbol of symbolsData" [value]="symbol.code">{{ symbol.desc }}</option>
+								</select>
+							</div>
+						</div>
+					</div>
+
+
+					<!-- Currency to be converted to -->
+					<div class="row">
+						<div class="conversion_desc">
+							Convert To
+						</div>
+
+						<div class="col-xs-5">
+							<div class="form-group">
+								<input type="number" class="form-control" formControlName="targetCurrencyVal">
+							</div>
+						</div>
+
+						<div class="col-xs-7">
+							<div class="form-group">
+								<select class="form-control" formControlName="targetCurrency">
+									<option *ngFor="let symbol of symbolsData" [value]="symbol.code">{{ symbol.desc }}</option>
+								</select>
+							</div>
+						</div>
+					</div>
+				</form>
+
+			</div>
+		</div>
+	</div>
 </div>

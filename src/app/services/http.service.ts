@@ -1,3 +1,4 @@
+import { HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
@@ -31,5 +32,5 @@ export class HttpService {
 			return this._http.post(API, dataToPost);
 		}
 	}
-	
+
 }
