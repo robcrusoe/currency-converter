@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 
+/* Declares root level routes for the application */
 const routes: Routes = [
 	{
 		path: 'home',
@@ -10,6 +11,11 @@ const routes: Routes = [
 	},
 	{
 		path: '',
+		pathMatch: 'full',
+		redirectTo: '/home'
+	},
+	{
+		path: '**',
 		pathMatch: 'full',
 		redirectTo: '/home'
 	}
