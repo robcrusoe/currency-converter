@@ -9,6 +9,7 @@ import { map } from 'rxjs/operators';
 })
 export class CurrencyProcessorService {
 
+	/* Stores all the currency conversion data fetched from web-server */
 	private symbols: SymbolsData[] = [];
 
 
@@ -16,7 +17,15 @@ export class CurrencyProcessorService {
 		private _httpService: HttpService
 	) { }
 
+	
+	/** Fetches all the current currency symbols 
+	
+		Arguments:
+		param: API: The URL end-point for the web-service
 
+		Returns:
+		An Observable of generic type 'SymbolsData' (Processed using map operator - rxjs package)
+	*/
 	fetchCurrencySymbols(API: string): Observable<SymbolsData[]> {
 		return this._httpService.fetchDataFromServer(API, 'GET').pipe(
 			map((symbolsResponse: any) => {

@@ -13,8 +13,10 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 })
 export class HomeComponent implements OnInit {
 
+	/* Declares API for fetching all currency symbols from server */
 	_FETCHSYMBOLSAPI: string = environment.serverURL + Urls.fetchSymbols;
-	
+
+	/* Class Field variables */
 	symbolsData: SymbolsData[] = [];
 	conversionForm: FormGroup;
 
@@ -31,6 +33,7 @@ export class HomeComponent implements OnInit {
 	}
 
 
+	/* Initializes Conversion Form on App Load */
 	initializeConversionForm(): void {
 		this.conversionForm = this._formBuilder.group({
 			baseCurrencyVal: this._formBuilder.control(1, [Validators.required]),
@@ -43,11 +46,13 @@ export class HomeComponent implements OnInit {
 	}
 
 
+	/* Computes the result for initial conversion [Default: NOK -> USD] */
 	performInitialConversion(): void {
 
 	}
 
 
+	/* Fetches all the current currency symbols on App Load */
 	fetchCurrencySymbols(): void {
 		this._currencyProcessorService.fetchCurrencySymbols(this._FETCHSYMBOLSAPI).subscribe((symbolsData: SymbolsData[]) => {
 			console.log("Symbols Data [- Processed]: ", symbolsData);
@@ -59,6 +64,14 @@ export class HomeComponent implements OnInit {
 	}
 
 
+	/** Implements search on 'symbolsData' array to obtain selected symbol description
+
+		Arguments:
+		param: type: determines whether the description is for base currency or target currency
+
+		Returns:
+		A string with currency description
+	*/
 	getCurrencyDesc(type: string): string {
 		let currencyCode: string;
 		if(type == 'base') {
@@ -76,6 +89,14 @@ export class HomeComponent implements OnInit {
 	}
 
 
+	/** Implements search on 'symbolsData' array to obtain selected symbol value
+
+		Arguments:
+		param: type: determines whether the description is for base currency or target currency
+
+		Returns:
+		A number with currency value
+	*/
 	getCurrencyValue(type: string): number {
 		if(type == 'base') {
 			return this.conversionForm.controls.baseCurrencyVal.value;
