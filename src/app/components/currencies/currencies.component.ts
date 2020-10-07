@@ -64,4 +64,9 @@ export class CurrenciesComponent implements OnInit {
 		});
 	}
 
+
+	onRefreshExchangeRates(): void {
+		this.fetchLatestRates();
+	}
+
 }

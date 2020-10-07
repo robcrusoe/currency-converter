@@ -35,6 +35,7 @@ export class CurrencyProcessorService {
 				console.log("Symbols Response [- Unprocessed From Server]: ", symbolsResponse);
 
 				let symbolsArray: any[] = Object.entries(symbolsResponse.symbols);
+				this.symbols = [];
 				symbolsArray.forEach(([key, value]) => {
 					this.symbols.push({
 						code: key,
@@ -76,6 +77,7 @@ export class CurrencyProcessorService {
 		return this._httpService.fetchDataFromServer(API, 'GET').pipe(
 			map((latestRates: any) => {
 				let exchangeRatesArray: any[] = Object.entries(latestRates.rates);
+				this.latestRates = [];
 				exchangeRatesArray.forEach(([key, value]) => {
 					this.latestRates.push({
 						currency: key,

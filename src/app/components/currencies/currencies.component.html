@@ -22,7 +22,7 @@
 						</label>
 
 						<select class="selected_currency_element form-control" name="selectedCurrency"
-							id="selectedCurrency" formControlName="selectedCurrency">
+							id="selectedCurrency" formControlName="selectedCurrency" (change)="onRefreshExchangeRates()">
 							<option *ngFor="let symbol of symbolsData" [value]="symbol.code">{{ symbol.code }}
 							</option>
 						</select>
@@ -38,12 +38,14 @@
 			<table class="table table-striped">
 				<thead>
 					<tr>
-						<th>Currency</th>
+						<th>Sr. No.</th>
+						<th>Currency Code</th>
 						<th>Exchange Rate</th>
 					</tr>
 				</thead>
 				<tbody>
-					<tr *ngFor="let item of latestRates">
+					<tr *ngFor="let item of latestRates; let i=index;">
+						<td>{{ i + 1 }}</td>
 						<td>{{ item.currency }}</td>
 						<td>{{ item.rate }}</td>
 					</tr>
