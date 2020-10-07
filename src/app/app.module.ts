@@ -7,11 +7,17 @@ import { AppComponent } from './app.component';
 import { HomeComponent } from './components/home/home.component';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { HeaderComponent } from './components/header/header.component';
+import { CurrenciesComponent } from './components/currencies/currencies.component';
+import { HistoryComponent } from './components/history/history.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    HomeComponent
+    HomeComponent,
+    HeaderComponent,
+    CurrenciesComponent,
+    HistoryComponent
   ],
   imports: [
     BrowserModule,

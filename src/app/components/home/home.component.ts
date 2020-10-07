@@ -13,7 +13,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 })
 export class HomeComponent implements OnInit {
 
-	API: string = environment.serverURL + Urls.fetchSymbols;
+	_FETCHSYMBOLSAPI: string = environment.serverURL + Urls.fetchSymbols;
+	
 	symbolsData: SymbolsData[] = [];
 	conversionForm: FormGroup;
 
@@ -48,7 +49,7 @@ export class HomeComponent implements OnInit {
 
 
 	fetchCurrencySymbols(): void {
-		this._currencyProcessorService.fetchCurrencySymbols(this.API).subscribe((symbolsData: SymbolsData[]) => {
+		this._currencyProcessorService.fetchCurrencySymbols(this._FETCHSYMBOLSAPI).subscribe((symbolsData: SymbolsData[]) => {
 			console.log("Symbols Data [- Processed]: ", symbolsData);
 
 			this.symbolsData = symbolsData;

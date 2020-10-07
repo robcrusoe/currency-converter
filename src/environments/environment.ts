@@ -1,4 +1,4 @@
-/* Declares information about BASE/SERVER API */
+/* Declares information about BASE/SERVER API | Access Key */
 export const environment = {
   production: false,
   serverURL: 'https://data.fixer.io/api/',

@@ -1,3 +1,5 @@
+import { HistoryComponent } from './components/history/history.component';
+import { CurrenciesComponent } from './components/currencies/currencies.component';
 import { HomeComponent } from './components/home/home.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
@@ -8,6 +10,14 @@ const routes: Routes = [
 	{
 		path: 'home',
 		component: HomeComponent
+	},
+	{
+		path: 'currencies',
+		component: CurrenciesComponent
+	},
+	{
+		path: 'history',
+		component: HistoryComponent
 	},
 	{
 		path: '',
