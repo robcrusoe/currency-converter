@@ -53,12 +53,17 @@ export class CurrencyProcessorService {
 		param: baseCurrency: Currency to be converted from
 		param: baseCurrencyVal: Currency (amount) to be converted from
 		param: targetCurrency: Currency to be converted to
+		optional param: processedDate: For computation based on historic data
 
 		Returns:
 		An object of type 'ConversionResponse' which includes the 'result' of conversion
 	*/
-	performConversion(API: string, baseCurrency: string, baseCurrencyVal: number, targetCurrency: string): Observable<ConversionResponse> {
+	performConversion(API: string, baseCurrency: string, baseCurrencyVal: number, targetCurrency: string, processedDate?: string): Observable<ConversionResponse> {
 		API += ('?from=' + baseCurrency + '&to=' + targetCurrency + "&amount=" + baseCurrencyVal);
+
+		if(processedDate) {
+			API += ("&date=" + processedDate);
+		}
 		return this._httpService.fetchDataFromServer(API, 'GET');
 	}
 

@@ -16,6 +16,7 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
+import { MatDialogModule } from '@angular/material/dialog';
 
 
 @NgModule({
@@ -37,7 +38,8 @@ import { MatIconModule } from '@angular/material/icon';
 		MatNativeDateModule,
 		MatFormFieldModule,
 		MatInputModule,
-		MatIconModule
+		MatIconModule,
+		MatDialogModule
 	],
 	providers: [
 		{

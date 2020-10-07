@@ -11,4 +11,5 @@ export interface ConversionResponse {
     };
     result: number;
     success: boolean;
+    historical?: boolean;
 }

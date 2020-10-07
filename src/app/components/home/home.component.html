@@ -97,10 +97,12 @@
 							Select Date <span class="italicize_text">(Optional)</span>
 						</div>
 
-						<div class="col-xs-5">
-							<input matInput [matDatepicker]="picker">
-							<mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-							<mat-datepicker #picker></mat-datepicker>
+						<div class="col-xs-6 datepicker_container">
+							<mat-form-field>
+								<input id="conversionDate" matInput [matDatepicker]="conversionDatePicker" formControlName="conversionDate" [max]="maxConversionDate" [min]="minConversionDate" placeholder="Select a past date" (dateChange)="onFetchHistoricPrice()">
+								<mat-datepicker-toggle matSuffix [for]="conversionDatePicker"></mat-datepicker-toggle>
+								<mat-datepicker #conversionDatePicker></mat-datepicker>
+							</mat-form-field>
 						</div>
 					</div>
 				</form>

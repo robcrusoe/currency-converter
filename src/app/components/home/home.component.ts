@@ -22,6 +22,8 @@ export class HomeComponent implements OnInit {
 	symbolsData: SymbolsData[] = [];
 	conversionForm: FormGroup;
 	isInitialDataLoaded: boolean = false;
+	maxConversionDate: Date;
+	minConversionDate: Date;
 
 
 	constructor(
@@ -42,9 +44,12 @@ export class HomeComponent implements OnInit {
 			baseCurrencyVal: this._formBuilder.control(1, [Validators.required, Validators.min(0)]),
 			baseCurrency: this._formBuilder.control('NOK', [Validators.required]),
 			targetCurrencyVal: this._formBuilder.control({ value: null, disabled: true }),
-			targetCurrency: this._formBuilder.control('USD', [Validators.required])
+			targetCurrency: this._formBuilder.control('USD', [Validators.required]),
+			conversionDate: this._formBuilder.control(null)
 		});
 
+		this.maxConversionDate = new Date();
+		this.minConversionDate = new Date(1993, 0, 1, 0, 0, 0)
 		this.performConversion(true);
 	}
 
@@ -53,8 +58,9 @@ export class HomeComponent implements OnInit {
 
 		Arguments:
 		optional param: initialLoad: Determines whether data is being fetched for first time on app bootstrap
+		optional param: processedDate: For computation of amounts pertaining to Historical Data
 	*/
-	performConversion(initialLoad?: boolean): void {
+	performConversion(initialLoad?: boolean, processedDate?: string): void {
 		if (this.conversionForm.value.baseCurrencyVal === 0) {
 			this.conversionForm.patchValue({
 				targetCurrencyVal: 0
@@ -63,7 +69,7 @@ export class HomeComponent implements OnInit {
 			return;
 		}
 
-		this._currencyProcessorService.performConversion(this._CONVERTCURRENCYAPI, this.conversionForm.value.baseCurrency, this.conversionForm.value.baseCurrencyVal, this.conversionForm.value.targetCurrency).subscribe((conversionResponse: ConversionResponse) => {
+		this._currencyProcessorService.performConversion(this._CONVERTCURRENCYAPI, this.conversionForm.value.baseCurrency, this.conversionForm.value.baseCurrencyVal, this.conversionForm.value.targetCurrency, processedDate).subscribe((conversionResponse: ConversionResponse) => {
 			console.log("Conversion Response: ", conversionResponse);
 
 			this.conversionForm.patchValue({
@@ -143,6 +149,35 @@ export class HomeComponent implements OnInit {
 	/* Updates currency conversion results on changes to baseCurrencyVal | targetCurrencyVal */
 	onCurrencyUpdate(): void {
 		this.performConversion();
+	}
+
+
+	/* Computes the amount based on the historic price data */
+	onFetchHistoricPrice(): void {
+		let processedDate: string = this.getConvertedDate(this.conversionForm.value.conversionDate);
+
+		this.performConversion(false, processedDate);
+	}
+
+
+	getConvertedDate(date: Date): string {
+		let processedDate: string = date.getFullYear().toString() + "-";
+
+		if ((date.getMonth() + 1).toString().length == 1) {
+			processedDate += ("0" + (date.getMonth() + 1).toString() + "-");
+		}
+		else {
+			processedDate += ((date.getMonth() + 1).toString() + "-");
+		}
+
+		if (date.getDate().toString().length == 1) {
+			processedDate += ("0" + (date.getDate() + 1).toString());
+		}
+		else {
+			processedDate += ((date.getDate() + 1).toString());
+		}
+
+		return processedDate;
 	}
 
 }
