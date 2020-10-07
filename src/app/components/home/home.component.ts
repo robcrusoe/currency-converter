@@ -39,9 +39,9 @@ export class HomeComponent implements OnInit {
 	/* Initializes Conversion Form on App Load */
 	initializeConversionForm(): void {
 		this.conversionForm = this._formBuilder.group({
-			baseCurrencyVal: this._formBuilder.control(1, [Validators.required]),
+			baseCurrencyVal: this._formBuilder.control(1, [Validators.required, Validators.min(0)]),
 			baseCurrency: this._formBuilder.control('NOK', [Validators.required]),
-			targetCurrencyVal: this._formBuilder.control(0, [Validators.required]),
+			targetCurrencyVal: this._formBuilder.control({ value: null, disabled: true }),
 			targetCurrency: this._formBuilder.control('USD', [Validators.required])
 		});
 
@@ -55,6 +55,14 @@ export class HomeComponent implements OnInit {
 		optional param: initialLoad: Determines whether data is being fetched for first time on app bootstrap
 	*/
 	performConversion(initialLoad?: boolean): void {
+		if (this.conversionForm.value.baseCurrencyVal === 0) {
+			this.conversionForm.patchValue({
+				targetCurrencyVal: 0
+			});
+
+			return;
+		}
+
 		this._currencyProcessorService.performConversion(this._CONVERTCURRENCYAPI, this.conversionForm.value.baseCurrency, this.conversionForm.value.baseCurrencyVal, this.conversionForm.value.targetCurrency).subscribe((conversionResponse: ConversionResponse) => {
 			console.log("Conversion Response: ", conversionResponse);
 
@@ -62,7 +70,7 @@ export class HomeComponent implements OnInit {
 				targetCurrencyVal: conversionResponse.result
 			});
 
-			if(initialLoad) {
+			if (initialLoad) {
 				this.isInitialDataLoaded = true;
 			}
 		}, (errorData: HttpErrorResponse) => {
@@ -128,6 +136,12 @@ export class HomeComponent implements OnInit {
 
 	/* Updates currency conversion results on changes to baseCurrency | targetCurrency */
 	onChangeBaseCurrency(): void {
+		this.performConversion();
+	}
+
+
+	/* Updates currency conversion results on changes to baseCurrencyVal | targetCurrencyVal */
+	onCurrencyUpdate(): void {
 		this.performConversion();
 	}
 
