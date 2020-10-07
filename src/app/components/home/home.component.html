@@ -50,7 +50,8 @@
 
 						<div class="col-xs-5">
 							<div class="form-group">
-								<input type="number" class="form-control" formControlName="baseCurrencyVal" (input)="onCurrencyUpdate()">
+								<input type="number" class="form-control" formControlName="baseCurrencyVal"
+									(input)="onCurrencyUpdate()">
 							</div>
 						</div>
 
@@ -86,6 +87,20 @@
 									</option>
 								</select>
 							</div>
+						</div>
+					</div>
+
+
+					<!-- Optional Datepicker -->
+					<div class="row">
+						<div class="conversion_desc">
+							Select Date <span class="italicize_text">(Optional)</span>
+						</div>
+
+						<div class="col-xs-5">
+							<input matInput [matDatepicker]="picker">
+							<mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+							<mat-datepicker #picker></mat-datepicker>
 						</div>
 					</div>
 				</form>
