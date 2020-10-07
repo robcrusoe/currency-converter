@@ -4,6 +4,7 @@ import { HttpService } from './http.service';
 import { Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { map } from 'rxjs/operators';
+import { LatestRates } from 'app/models/latest-rates.interface';
 
 @Injectable({
 	providedIn: 'root'
@@ -12,13 +13,14 @@ export class CurrencyProcessorService {
 
 	/* Stores all the currency conversion data fetched from web-server */
 	private symbols: SymbolsData[] = [];
+	private latestRates: LatestRates[] = [];
 
 
 	constructor(
 		private _httpService: HttpService
 	) { }
 
-	
+
 	/** Fetches all the current currency symbols 
 	
 		Arguments:
@@ -60,11 +62,30 @@ export class CurrencyProcessorService {
 	*/
 	performConversion(API: string, baseCurrency: string, baseCurrencyVal: number, targetCurrency: string, processedDate?: string): Observable<ConversionResponse> {
 		API += ('?from=' + baseCurrency + '&to=' + targetCurrency + "&amount=" + baseCurrencyVal);
-
-		if(processedDate) {
+		if (processedDate) {
 			API += ("&date=" + processedDate);
 		}
+
 		return this._httpService.fetchDataFromServer(API, 'GET');
+	}
+
+
+	/*  */
+	fetchLatestCurrencyRates(API: string, baseCurrency: string): Observable<LatestRates[]> {
+		API += ("?base=" + baseCurrency);
+		return this._httpService.fetchDataFromServer(API, 'GET').pipe(
+			map((latestRates: any) => {
+				let exchangeRatesArray: any[] = Object.entries(latestRates.rates);
+				exchangeRatesArray.forEach(([key, value]) => {
+					this.latestRates.push({
+						currency: key,
+						rate: value
+					});
+				});
+
+				return this.latestRates;
+			})
+		);
 	}
 
 }
