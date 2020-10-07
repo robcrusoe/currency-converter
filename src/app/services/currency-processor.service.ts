@@ -1,3 +1,4 @@
+import { ConversionResponse } from './../models/conversion-response.interface';
 import { SymbolsData } from './../models/symbols-data.interface';
 import { HttpService } from './http.service';
 import { Observable } from 'rxjs';
@@ -42,6 +43,23 @@ export class CurrencyProcessorService {
 				return this.symbols;
 			})
 		);
+	}
+
+
+	/** Performs conversion of rates based on baseCurrency and targetCurrency 
+
+		Arguments:
+		param: API: The URL end-point for the web-service
+		param: baseCurrency: Currency to be converted from
+		param: baseCurrencyVal: Currency (amount) to be converted from
+		param: targetCurrency: Currency to be converted to
+
+		Returns:
+		An object of type 'ConversionResponse' which includes the 'result' of conversion
+	*/
+	performConversion(API: string, baseCurrency: string, baseCurrencyVal: number, targetCurrency: string): Observable<ConversionResponse> {
+		API += ('?from=' + baseCurrency + '&to=' + targetCurrency + "&amount=" + baseCurrencyVal);
+		return this._httpService.fetchDataFromServer(API, 'GET');
 	}
 
 }

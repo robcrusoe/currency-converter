@@ -6,7 +6,26 @@
 		</div>
 	</div>
 
-	<div class="row home_main_content">
+
+	<!-- Main screen loader | loading.io/css -->
+	<div class="row" *ngIf="!isInitialDataLoaded">
+		<div class="col-xs-12 loader_container">
+			<div class="lds-grid">
+				<div></div>
+				<div></div>
+				<div></div>
+				<div></div>
+				<div></div>
+				<div></div>
+				<div></div>
+				<div></div>
+				<div></div>
+			</div>
+		</div>
+	</div>
+
+
+	<div class="row home_main_content" *ngIf="isInitialDataLoaded">
 		<div class="col-sm-12 col-md-offset-3 col-md-6">
 			<div class="home_conversion_card">
 
@@ -37,8 +56,10 @@
 
 						<div class="col-xs-7">
 							<div class="form-group">
-								<select class="form-control" formControlName="baseCurrency">
-									<option *ngFor="let symbol of symbolsData" [value]="symbol.code">{{ symbol.desc }}</option>
+								<select class="form-control" formControlName="baseCurrency"
+									(change)="onChangeBaseCurrency()">
+									<option *ngFor="let symbol of symbolsData" [value]="symbol.code">{{ symbol.desc }}
+									</option>
 								</select>
 							</div>
 						</div>
@@ -59,8 +80,10 @@
 
 						<div class="col-xs-7">
 							<div class="form-group">
-								<select class="form-control" formControlName="targetCurrency">
-									<option *ngFor="let symbol of symbolsData" [value]="symbol.code">{{ symbol.desc }}</option>
+								<select class="form-control" formControlName="targetCurrency"
+									(change)="onChangeBaseCurrency()">
+									<option *ngFor="let symbol of symbolsData" [value]="symbol.code">{{ symbol.desc }}
+									</option>
 								</select>
 							</div>
 						</div>

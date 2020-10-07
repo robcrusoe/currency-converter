@@ -1,3 +1,4 @@
+import { ConversionResponse } from './../../models/conversion-response.interface';
 import { Urls } from './../../shared/urls';
 import { environment } from './../../../environments/environment';
 import { SymbolsData } from './../../models/symbols-data.interface';
@@ -15,10 +16,12 @@ export class HomeComponent implements OnInit {
 
 	/* Declares API for fetching all currency symbols from server */
 	_FETCHSYMBOLSAPI: string = environment.serverURL + Urls.fetchSymbols;
+	_CONVERTCURRENCYAPI: string = environment.serverURL + Urls.convertCurrency;
 
 	/* Class Field variables */
 	symbolsData: SymbolsData[] = [];
 	conversionForm: FormGroup;
+	isInitialDataLoaded: boolean = false;
 
 
 	constructor(
@@ -42,13 +45,29 @@ export class HomeComponent implements OnInit {
 			targetCurrency: this._formBuilder.control('USD', [Validators.required])
 		});
 
-		this.performInitialConversion();
+		this.performConversion(true);
 	}
 
 
-	/* Computes the result for initial conversion [Default: NOK -> USD] */
-	performInitialConversion(): void {
+	/** Computes the result for currency conversion [Default: NOK -> USD] 
 
+		Arguments:
+		optional param: initialLoad: Determines whether data is being fetched for first time on app bootstrap
+	*/
+	performConversion(initialLoad?: boolean): void {
+		this._currencyProcessorService.performConversion(this._CONVERTCURRENCYAPI, this.conversionForm.value.baseCurrency, this.conversionForm.value.baseCurrencyVal, this.conversionForm.value.targetCurrency).subscribe((conversionResponse: ConversionResponse) => {
+			console.log("Conversion Response: ", conversionResponse);
+
+			this.conversionForm.patchValue({
+				targetCurrencyVal: conversionResponse.result
+			});
+
+			if(initialLoad) {
+				this.isInitialDataLoaded = true;
+			}
+		}, (errorData: HttpErrorResponse) => {
+			console.warn("Error [Convert -> Currency]: ", errorData);
+		});
 	}
 
 
@@ -74,15 +93,15 @@ export class HomeComponent implements OnInit {
 	*/
 	getCurrencyDesc(type: string): string {
 		let currencyCode: string;
-		if(type == 'base') {
+		if (type == 'base') {
 			currencyCode = this.conversionForm.controls.baseCurrency.value;
 		}
-		else if(type == 'target') {
+		else if (type == 'target') {
 			currencyCode = this.conversionForm.controls.targetCurrency.value;
 		}
 
-		for(let symbol of this.symbolsData.slice()) {
-			if(symbol.code == currencyCode) {
+		for (let symbol of this.symbolsData.slice()) {
+			if (symbol.code == currencyCode) {
 				return symbol.desc;
 			}
 		}
@@ -98,12 +117,18 @@ export class HomeComponent implements OnInit {
 		A number with currency value
 	*/
 	getCurrencyValue(type: string): number {
-		if(type == 'base') {
+		if (type == 'base') {
 			return this.conversionForm.controls.baseCurrencyVal.value;
 		}
-		else if(type == 'target') {
+		else if (type == 'target') {
 			return this.conversionForm.controls.targetCurrencyVal.value;
 		}
+	}
+
+
+	/* Updates currency conversion results on changes to baseCurrency | targetCurrency */
+	onChangeBaseCurrency(): void {
+		this.performConversion();
 	}
 
 }
