@@ -1,3 +1,4 @@
+import { SearchHistory } from './../models/search-history.interface';
 import { ConversionResponse } from './../models/conversion-response.interface';
 import { SymbolsData } from './../models/symbols-data.interface';
 import { HttpService } from './http.service';
@@ -14,6 +15,7 @@ export class CurrencyProcessorService {
 	/* Stores all the currency conversion data fetched from web-server */
 	private symbols: SymbolsData[] = [];
 	private latestRates: LatestRates[] = [];
+	private searchHistoryLogs: SearchHistory[] = [];
 
 
 	constructor(
@@ -71,7 +73,15 @@ export class CurrencyProcessorService {
 	}
 
 
-	/*  */
+	/** Fetches the latest currency exchange rates for a base currency
+	
+		Arguments:
+		param: API: The URL end-point for the web-service
+		param: baseCurrency: The currency for which the exchange rates are fetched for
+
+		Returns:
+		An Observable of generic type 'Array of LatestRates'
+	*/
 	fetchLatestCurrencyRates(API: string, baseCurrency: string): Observable<LatestRates[]> {
 		API += ("?base=" + baseCurrency);
 		return this._httpService.fetchDataFromServer(API, 'GET').pipe(
@@ -88,6 +98,26 @@ export class CurrencyProcessorService {
 				return this.latestRates;
 			})
 		);
+	}
+
+
+	/** Updates the logger array which maintains app search history for currency conversions
+	
+		Arguments:
+		param: searchHistoryEl: An object of type 'SearchHistory' (The logger object)
+	*/
+	updateSearchHistoryLog(searchHistoryEl: SearchHistory): void {
+		this.searchHistoryLogs.push(searchHistoryEl);
+	}
+
+
+	/** Method to return the updated search history logs for currency conversion
+	
+		Returns:
+		param: An array of type 'SearchHistory' (The search history logger array)
+	*/
+	getSearchHistoryLog(): SearchHistory[] {
+		return [...this.searchHistoryLogs];
 	}
 
 }

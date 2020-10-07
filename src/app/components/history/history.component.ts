@@ -1,15 +1,25 @@
+import { CurrencyProcessorService } from './../../services/currency-processor.service';
+import { SearchHistory } from './../../models/search-history.interface';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-history',
-  templateUrl: './history.component.html',
-  styleUrls: ['./history.component.css']
+	selector: 'app-history',
+	templateUrl: './history.component.html',
+	styleUrls: ['./history.component.css']
 })
 export class HistoryComponent implements OnInit {
 
-  constructor() { }
+	searchHistoryLogs: SearchHistory[] = [];
 
-  ngOnInit(): void {
-  }
+
+	constructor(
+		private _currencyProcessorService: CurrencyProcessorService
+	) { }
+
+
+	ngOnInit(): void {
+		this.searchHistoryLogs = [...this._currencyProcessorService.getSearchHistoryLog()];
+		console.log(this.searchHistoryLogs);
+	}
 
 }

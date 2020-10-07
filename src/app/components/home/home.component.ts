@@ -1,3 +1,4 @@
+import { SearchHistory } from './../../models/search-history.interface';
 import { ConversionResponse } from './../../models/conversion-response.interface';
 import { Urls } from './../../shared/urls';
 import { environment } from './../../../environments/environment';
@@ -80,9 +81,29 @@ export class HomeComponent implements OnInit {
 			if (initialLoad) {
 				this.isInitialDataLoaded = true;
 			}
+
+			this.saveDataToSearchHistory(conversionResponse.result);
 		}, (errorData: HttpErrorResponse) => {
 			console.warn("Error [Convert -> Currency]: ", errorData);
 		});
+	}
+
+
+	/** Stores data for amount conversion operation to the search history logs
+	
+		Arguments:
+		param: convertedAmount: The converted amount received from web-service
+	*/
+	saveDataToSearchHistory(convertedAmount: number): void {
+		let searchHistoryEl: SearchHistory = {
+			baseCurrency: this.conversionForm.value.baseCurrency,
+			targetCurrency: this.conversionForm.value.targetCurrency,
+			baseAmount: this.conversionForm.value.baseCurrencyVal,
+			convertedAmount: convertedAmount,
+			exchangeDate: this.conversionForm.value.conversionDate ? this.conversionForm.value.conversionDate : new Date()
+		}
+
+		this._currencyProcessorService.updateSearchHistoryLog(searchHistoryEl);
 	}
 
 
@@ -161,6 +182,14 @@ export class HomeComponent implements OnInit {
 	}
 
 
+	/** Computes the accepted convention of date string format for the web-services
+	
+		Arguments:
+		param: date: A 'Date' object to be converted to accepted string format of YYYY-MM-DD
+
+		Returns:
+		A string (date) of format YYYY-MM-DD
+	*/
 	getConvertedDate(date: Date): string {
 		let processedDate: string = date.getFullYear().toString() + "-";
 
