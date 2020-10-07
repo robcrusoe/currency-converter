@@ -16,6 +16,7 @@ export class HomeComponent implements OnInit {
 
 	/* Declares API for fetching all currency symbols from server */
 	_FETCHSYMBOLSAPI: string = environment.serverURL + Urls.fetchSymbols;
+	/* Declares API for converting currency amount */
 	_CONVERTCURRENCYAPI: string = environment.serverURL + Urls.convertCurrency;
 
 	/* Class Field variables */

@@ -1,1 +1,31 @@
-<p>currencies works!</p>
+<div class="container">
+    <div class="row">
+        <div class="col-md-12 currencies_heading">
+            <h1>Current currency rates</h1>
+        </div>
+    </div>
+
+
+    <!-- Main screen loader | loading.io/css -->
+	<div class="row" *ngIf="true">
+		<app-loader></app-loader>
+	</div>
+
+
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="form-group">
+                <div class="selected_currency_container">
+                    <label for="selectedCurrency">
+                        Select a Currency: 
+                    </label>
+
+                    <select class="selected_currency_element form-control" name="selectedCurrency" id="selectedCurrency">
+                        <option *ngFor="let symbol of symbolsData" [value]="symbol.code">{{ symbol.code }}
+                        </option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
