@@ -63,7 +63,7 @@ export class HomeComponent implements OnInit {
 		optional param: processedDate: For computation of amounts pertaining to Historical Data
 	*/
 	performConversion(initialLoad?: boolean, processedDate?: string): void {
-		if (this.conversionForm.value.baseCurrencyVal === 0) {
+		if (this.conversionForm.value.baseCurrencyVal === 0 || !this.conversionForm.value.baseCurrencyVal) {
 			this.conversionForm.patchValue({
 				targetCurrencyVal: 0
 			});
