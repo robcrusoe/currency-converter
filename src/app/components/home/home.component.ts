@@ -74,7 +74,9 @@ export class HomeComponent implements OnInit {
 		this._currencyProcessorService.performConversion(this._CONVERTCURRENCYAPI, this.conversionForm.value.baseCurrency, this.conversionForm.value.baseCurrencyVal, this.conversionForm.value.targetCurrency, processedDate).subscribe((conversionResponse: ConversionResponse) => {
 			console.log("Conversion Response: ", conversionResponse);
 
-			this.saveDataToSearchHistory(conversionResponse.query.from, conversionResponse.query.amount, conversionResponse.query.to, conversionResponse.result);
+			if (!initialLoad) {
+				this.saveDataToSearchHistory(conversionResponse.query.from, conversionResponse.query.amount, conversionResponse.query.to, conversionResponse.result);
+			}
 
 			this.conversionForm.patchValue({
 				targetCurrencyVal: conversionResponse.result
