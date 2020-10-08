@@ -74,6 +74,8 @@ export class HomeComponent implements OnInit {
 		this._currencyProcessorService.performConversion(this._CONVERTCURRENCYAPI, this.conversionForm.value.baseCurrency, this.conversionForm.value.baseCurrencyVal, this.conversionForm.value.targetCurrency, processedDate).subscribe((conversionResponse: ConversionResponse) => {
 			console.log("Conversion Response: ", conversionResponse);
 
+			this.saveDataToSearchHistory(conversionResponse.query.from, conversionResponse.query.amount, conversionResponse.query.to, conversionResponse.result);
+
 			this.conversionForm.patchValue({
 				targetCurrencyVal: conversionResponse.result
 			});
@@ -81,8 +83,6 @@ export class HomeComponent implements OnInit {
 			if (initialLoad) {
 				this.isInitialDataLoaded = true;
 			}
-
-			this.saveDataToSearchHistory(conversionResponse.result);
 		}, (errorData: HttpErrorResponse) => {
 			console.warn("Error [Convert -> Currency]: ", errorData);
 		});
@@ -92,13 +92,16 @@ export class HomeComponent implements OnInit {
 	/** Stores data for amount conversion operation to the search history logs
 	
 		Arguments:
+		param: baseCurrency: The currency to be converted from
+		param: baseCurrencyVal: The amount to be converted from
+		param: targetCurrency: The currency to be converted to
 		param: convertedAmount: The converted amount received from web-service
 	*/
-	saveDataToSearchHistory(convertedAmount: number): void {
+	saveDataToSearchHistory(baseCurrency: string, baseCurrencyVal: number, targetCurrency: string, convertedAmount: number): void {
 		let searchHistoryEl: SearchHistory = {
-			baseCurrency: this.conversionForm.value.baseCurrency,
-			targetCurrency: this.conversionForm.value.targetCurrency,
-			baseAmount: this.conversionForm.value.baseCurrencyVal,
+			baseCurrency: baseCurrency,
+			targetCurrency: targetCurrency,
+			baseAmount: baseCurrencyVal,
 			convertedAmount: convertedAmount,
 			exchangeDate: this.conversionForm.value.conversionDate ? this.conversionForm.value.conversionDate : new Date()
 		}

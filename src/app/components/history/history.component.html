@@ -5,6 +5,7 @@
 		</div>
 	</div>
 
+
 	<div class="row" *ngIf="searchHistoryLogs && searchHistoryLogs.length > 0">
 		<div class="col-xs-12">
 			<table class="table table-striped">
@@ -12,23 +13,33 @@
 					<tr>
 						<th>Sr. No.</th>
 						<th>Base Currency</th>
-                        <th>Target Currency</th>
-                        <th>Amount</th>
-                        <th>Converted Amount</th>
-                        <th>Date</th>
+						<th>Target Currency</th>
+						<th>Amount</th>
+						<th>Converted Amount</th>
+						<th>Date</th>
 					</tr>
 				</thead>
 				<tbody>
 					<tr *ngFor="let item of searchHistoryLogs; let i=index;">
 						<td>{{ i + 1 }}</td>
 						<td>{{ item.baseCurrency }}</td>
-                        <td>{{ item.targetCurrency }}</td>
-                        <td>{{ item.baseAmount }}</td>
-                        <td>{{ item.convertedAmount }}</td>
-                        <td>{{ item.exchangeDate | date }}</td>
+						<td>{{ item.targetCurrency }}</td>
+						<td>{{ item.baseAmount }}</td>
+						<td>{{ item.convertedAmount }}</td>
+						<td>{{ item.exchangeDate | date }}</td>
 					</tr>
 				</tbody>
 			</table>
 		</div>
 	</div>
+
+
+	<div class="row" *ngIf="!searchHistoryLogs || searchHistoryLogs.length == 0">
+		<div class="col-xs-12">
+			<div class="alert alert-warning">
+				<strong>Warning!</strong> Looks like you do not have any stored search history.
+			</div>
+		</div>
+	</div>
+
 </div>
