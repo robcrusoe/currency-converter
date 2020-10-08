@@ -19,7 +19,6 @@ export class HistoryComponent implements OnInit {
 
 	ngOnInit(): void {
 		this.searchHistoryLogs = [...this._currencyProcessorService.getSearchHistoryLog()];
-		console.log(this.searchHistoryLogs);
 	}
 
 }

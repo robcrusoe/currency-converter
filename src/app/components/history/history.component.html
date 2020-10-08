@@ -6,6 +6,7 @@
 	</div>
 
 
+	<!-- Logger table -->
 	<div class="row" *ngIf="searchHistoryLogs && searchHistoryLogs.length > 0">
 		<div class="col-xs-12">
 			<table class="table table-striped">
@@ -34,6 +35,7 @@
 	</div>
 
 
+	<!-- Warning for no logs present -->
 	<div class="row" *ngIf="!searchHistoryLogs || searchHistoryLogs.length == 0">
 		<div class="col-xs-12">
 			<div class="alert alert-warning">

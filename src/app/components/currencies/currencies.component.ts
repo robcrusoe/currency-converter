@@ -37,6 +37,7 @@ export class CurrenciesComponent implements OnInit {
 	}
 
 
+	/* Fetches the symbols data for all currencies at initial component load */
 	fetchSymbolsData(): void {
 		this._currencyProcessorService.fetchCurrencySymbols(this._FETCHSYMBOLSAPI).subscribe((onFetchSymbolsData: SymbolsData[]) => {
 			this.symbolsData = onFetchSymbolsData;
@@ -49,6 +50,7 @@ export class CurrenciesComponent implements OnInit {
 	}
 
 
+	/* Initializes 'currencyEvalForm' to track input for base currency */
 	initializeCurrencyEvalForm(): void {
 		this.currencyEvalForm = this._formBuilder.group({
 			selectedCurrency: this._formBuilder.control('USD', [Validators.required])
@@ -58,6 +60,7 @@ export class CurrenciesComponent implements OnInit {
 	}
 
 
+	/* Fetches the latest currency exchange rates */
 	fetchLatestRates(): void {
 		this._currencyProcessorService.fetchLatestCurrencyRates(this._FETCHLATESTRATES, this.currencyEvalForm.value.selectedCurrency).subscribe((latestRates: LatestRates[]) => {
 			this.latestRates = latestRates;
@@ -65,6 +68,7 @@ export class CurrenciesComponent implements OnInit {
 	}
 
 
+	/* Refreshes the latest exchange rates when base currency is changed */
 	onRefreshExchangeRates(): void {
 		this.fetchLatestRates();
 	}
